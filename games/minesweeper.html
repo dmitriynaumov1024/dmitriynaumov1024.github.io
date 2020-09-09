@@ -1,0 +1,323 @@
+﻿<!DOCTYPE HTML>
+
+<html>
+
+<head>
+
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width'>
+<title>
+    Minesweeper
+</title>
+
+<style>
+
+h2 {
+    font-family: sans-serif;
+    font-size: 100%;
+    text-shadow: 0 0 12px #FFFFFF;
+    text-align: center;
+}
+
+h1 {
+    font-family: sans-serif;
+    font-size: 200%;
+    text-shadow: 0 0 12px #66EEFF;
+    text-align: center;
+    color: #00EFFF;
+}
+
+td {
+    padding: 10px 5px 10px;
+}
+
+.box1 {
+    width: 50%;
+    min-width: 720px;
+    margin: 40px auto 40px;
+    padding: 20px;
+    border: 3px solid #ffffff;
+    border-radius: 5px;
+    background-color: #D0D0DA;
+    box-shadow: inset 0 0 18px 12px #FFFFFF, 0 0 18px 12px #66EEFF;
+    text-align: -webkit-center;
+}
+
+.dr {
+    display: block;
+    cursor: default;
+    margin:0px;
+}
+
+.dc {
+    display: inline-block;
+    text-align: center;
+    font-family: monospace;
+    font-size: 10px;
+    padding: 0px;
+    width: 40px;
+    border: 1px solid #888888;
+    background-color: #F0F0FF;
+    box-shadow: inset 0 0 12px 6px #AAAAAA;
+    border-radius: 4px;
+}
+
+.boxgame1 {
+    display: block;
+    text-align:center;
+    margin: auto;
+}
+
+body {
+    margin: 0px;
+    padding: 10px;
+    background-color: #555555;
+}
+
+.box2 {
+    margin: 40px auto 40px;
+    border-radius: 5px;
+    background-color: #D0D0DA;
+    box-shadow: 0 0 18px 12px #FF88FF;
+    width: 50%;
+    min-width: 720px;
+    text-align: -webkit-center;
+}
+
+button {
+    box-shadow: 0 0 12px 6px #FFFFFF;
+}
+
+</style>
+
+<script>
+
+var mode = 4; // 0 - when start scr. is being shown
+              // 1 - when game is going on
+              // 2 - when player wins
+              // 3 - when player loses
+              // 4 - on page load
+
+var started = false;
+var opened = 0, open_possible = 0;
+
+var colors = [
+"#D0D0D0", // 0
+"#111199", // 1
+"#116611", // 2
+"#991111", // 3
+"#112255", // 4
+"#551111", // 5
+"#440544", // 6
+"#114444", // 7
+"#050505"  // 8
+];
+
+var field = { 
+    "width": {
+        value: 10,
+        add: () => { 
+            if(field.width.value<24) field.width.value++; 
+            document.getElementById("field_width").innerHTML = field.width.value; 
+        },
+        dec: () => { 
+            if(field.width.value>6) field.width.value--;  
+            document.getElementById("field_width").innerHTML = field.width.value; 
+        }
+    },
+    "height": {
+        value: 10,
+        add: () => { 
+            if(field.height.value<24) field.height.value++; 
+            document.getElementById("field_height").innerHTML = field.height.value; 
+        },
+        dec: () => { 
+            if(field.height.value>6) field.height.value--;  
+            document.getElementById("field_height").innerHTML = field.height.value; 
+        }
+    },
+    "mines": {
+        value: 10,
+        add: () => { 
+            if(field.mines.value < (field.width.value * field.height.value / 2)) field.mines.value++; 
+            document.getElementById("field_mines").innerHTML = field.mines.value; 
+        },
+        dec: () => { 
+            if(field.mines.value > 6) field.mines.value--; 
+            document.getElementById("field_mines").innerHTML = field.mines.value; 
+        }
+    },
+    "visible": { // 0 - not opened, 1-8 - amount of mines around, 
+        value: []
+    },
+    "invisible": { // 0 - clear, 1 - mine
+        value: [],
+        generate: (row, column) => { 
+            field.invisible.value = new Array(field.height.value); 
+            for (let i=0; i<field.height.value; i++){
+                field.invisible.value[i] = new Array(field.width.value);
+                for (let j=0; j<field.width.value; j++){
+                    field.invisible.value[i][j] = 0;
+                }
+            }
+            field.invisible.value[row][column] = 1;
+            if(field.mines.value > (field.width.value * field.height.value / 2)) 
+                field.mines.value = (field.width.value * field.height.value / 2);
+            open_possible = field.width.value * field.height.value - field.mines.value;
+            opened = 0;
+            for(let i=0; i<field.mines.value; i++){
+                let z = Math.round(Math.random()*179) % field.height.value;
+                let y = Math.round(Math.random()*179) % field.width.value;
+                if(field.invisible.value[z][y] == 0) field.invisible.value[z][y] = 1;
+                else i--;
+            }
+            field.invisible.value[row][column] = 0;
+            document.getElementById('free_tiles').innerHTML = open_possible;
+        }
+    }
+};
+
+var screen_0 = `
+<h1> Minesweeper online </h1>
+<h2> by Dmitriy Naumov </h2>
+<div class='box1'>
+<table style='width:90%; margin:auto; font-family:monospace;'>
+<tr>
+<td>Field width: </td>
+<td>
+    <button onclick='field.width.dec()'>-</button>
+    <span id='field_width'>${field.width.value}</span>
+    <button onclick='field.width.add()'>+</button>
+</td>
+</tr>
+<tr>
+<td>Field height: </td>
+<td> 
+    <button onclick='field.height.dec()'>-</button>
+    <span id='field_height'>${field.height.value}</span>
+    <button onclick='field.height.add()'>+</button>
+</td>
+</tr>
+<tr>
+<td>Mines: </td>
+<td> 
+    <button onclick='field.mines.dec()'>-</button>
+    <span id='field_mines'>${field.mines.value}</span>
+    <button onclick='field.mines.add()'>+</button>
+</td>
+</tr>
+<tr>
+<td> 
+</td>
+<td> 
+</td>
+</tr>
+</table>
+<button onclick='start()'> START GAME </button>
+</div>`;
+
+function setnumber(row,column){
+    if(document.getElementById(`cell${row}_${column}`).innerHTML=="?"){
+        open_possible--;
+        document.getElementById('free_tiles').innerHTML = open_possible;
+        if(open_possible==0) game_win();
+        let sum = 0;
+        for(let i=row-1; i<row+2; i++){
+            for(let j=column-1; j<column+2; j++){
+                if(i>=0 && i<field.height.value && j>=0 && j<field.width.value){
+                    if(field.invisible.value[i][j]==1) sum++;
+                }
+            }
+        }
+        document.getElementById(`cell${row}_${column}`).innerHTML = "<b>"+sum+"</b>";
+        document.getElementById(`cell${row}_${column}`).style.backgroundColor = "#D0D0D0";
+        document.getElementById(`cell${row}_${column}`).style.color = colors[sum];
+        if(sum==0){
+            for(let i=row-1; i<row+2; i++){
+                for(let j=column-1; j<column+2; j++){
+                    if(i>=0 && i<field.height.value && j>=0 && j<field.width.value) setnumber(i,j);
+                }
+            }
+        }
+    }
+}
+
+function game_win() {
+    console.log("YOU WON!");
+    mode = 2;
+    document.body.innerHTML += `
+        <p> </p>
+        <div class='box1' style='position:absolute; top:50%; left:50%; transform:translate(-50%,-80%);'>
+        <h2 style='color:#111177;'>Congratulations! You won! </h2>
+        <p> </p>
+        <button onclick='start()'> RESTART </button>
+        </div>
+    `;
+}
+
+function game_over() {
+    console.log("GAME OVER");
+    mode = 3;
+    document.body.innerHTML += `
+        <p> </p>
+        <div class='box1' style='position:absolute; top:50%; left:50%; transform:translate(-50%,-80%);'>
+        <h2 style='color:#DD1111;'> GAME OVER! </h2>
+        <p> </p>
+        <button onclick='start()'> RESTART </button>
+        </div>
+    `;
+}
+
+function check(row, column){
+    if(!started) { field.invisible.generate(row, column); started = true; }
+    if(field.invisible.value[row][column]==1 && mode<2) {
+        _id_ = `cell${row}_${column}`;
+        document.getElementById(_id_).style.backgroundColor = "#DD1111"
+        document.getElementById(_id_).innerHTML = "<b>*</b>";
+        game_over();
+    } else if(mode<2) {
+        setnumber(row,column);
+    }
+}
+
+function screen_1(){ // for making visual representation of game field
+    let str = "<div class ='boxgame1'>";
+    var quadsize = Math.floor(Math.min((window.innerWidth-80)/field.width.value, (window.innerHeight-140)/field.height.value));
+    var fsize = Math.floor(quadsize/3);
+    document.styleSheets[0].cssRules[5].style.width = quadsize+"px";
+    document.styleSheets[0].cssRules[5].style.padding = fsize+"px 0 "+fsize+"px";
+    document.styleSheets[0].cssRules[5].style.fontSize = fsize+"px";
+    for(let i=0; i<field.height.value; i++){
+        str += "<div class='dr'>";
+        for(let j=0; j<field.width.value; j++){
+            str += `<div id='cell${i}_${j}' class='dc' onclick='check(${i},${j})'>?</div>`;
+        }
+        str += "</div>";
+    }
+    str += "</div> <pre style='color: #FFFFFF;'>Free tiles remaining: <span id='free_tiles'></span></pre>";
+    started = false;
+    return str;
+}
+
+function start(){
+    if(mode>1){
+        document.body.innerHTML = screen_0;
+        field.width.value = 10;
+        field.height.value = 10;
+        field.mines.value = 10;
+        mode = 0;
+    } else if(mode == 0){
+        document.body.innerHTML = screen_1();
+        mode = 1;
+    }
+}
+
+</script>
+
+</head>
+
+<body onload='start()'>
+
+</body>
+
+</html>
