@@ -321,9 +321,8 @@ function screen_1(){ // for making visual representation of game field
 }
 
 function start(){
-    if(mode>1){
-        let boxstyle = document.styleSheets[0].cssRules[3].style;
-        if(mobile) boxstyle.width = "90%";
+    if(mode>1){ 
+        if(mobile) document.styleSheets[0].cssRules[3].style.width = "90%";
         document.body.innerHTML = screen_0;
         field.width.value = 10;
         field.height.value = 10;
