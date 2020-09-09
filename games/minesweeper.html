@@ -297,9 +297,16 @@ function screen_1(){ // for making visual representation of game field
 
     let tilestyle = document.styleSheets[0].cssRules[5].style;
     tilestyle.width = quadsize+"px";
-    tilestyle.padding = fsize+"px 0 "+fsize+"px";
-    tilestyle.fontSize = fsize+"px";
-    if(!mobile) tilestyle.boxShadow = `inset 0 0 ${Math.floor(fsize/2)}px ${Math.floor(fsize/3)}px #AAAAAA`;
+
+    if(!mobile){ 
+        tilestyle.boxShadow = `inset 0 0 ${Math.floor(fsize/2)}px ${Math.floor(fsize/3)}px #AAAAAA`;
+        tilestyle.padding = fsize+"px 0 "+fsize+"px";
+        tilestyle.fontSize = fsize+"px";
+    } else {
+        tilestyle.fontSize = Math.floor(quadsize*0.7)+"px";
+        let psize = Math.floor(quadsize*0.16);
+        tilestyle.padding = psize+"px 0 "+psize+"px";
+    }
     
     for(let i=0; i<field.height.value; i++){
         str += "<div class='dr'>";
