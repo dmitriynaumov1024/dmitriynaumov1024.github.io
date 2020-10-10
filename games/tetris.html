@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>TETRIS</title>
+<script type="text/javascript">
+
+var fieldrows = 12, fieldcols = 8;
+var playing = false;
+var mobile = false;
+
+var IntervalHeart;
+
+var ColourTemplate = [
+    "#ca2020",
+    "#c0a012",
+    "#00b030",
+    "#4010a5"
+];
+
+var BuildinBlocks = [
+    { size: 4, blocks: [[0,0], [0,1], [0,2], [1,0]] },
+    { size: 4, blocks: [[0,0], [0,1], [1,1], [1,0]] },
+    { size: 3, blocks: [[0,0], [1,0], [0,1]] },
+    { size: 2, blocks: [[0,0], [1,0]]}
+];
+
+var field = GenerateField(fieldrows, fieldcols, function(i,j){ return false });
+var colourfield = GenerateField(fieldrows, fieldcols, GenerateDivColour);
+var whitefield = GenerateField(fieldrows, fieldcols, GenerateDivEmpty);
+
+var clsizeglobal = "";
+
+if(screen.width < 500 || navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) ||
+ navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
+    mobile = true;
+}
+
+function GenerateField(rows, cols, procedure){
+    let result = new Array(rows);
+    for (let i=0; i<rows; i++){
+        result[i] = new Array(cols);
+        for (let j=0; j<cols; j++){
+            result[i][j] = procedure(i,j);
+        }
+    }
+    return result;
+}
+
+function RandomInt(limit){
+    return Math.floor(Math.random() * limit);
+}
+
+function PrepareMainBox(){
+    let mb = document.getElementById('mainbox_');
+    let W = document.body.clientWidth;
+    let H = (mobile) ? (screen.availHeight * 0.8) : (window.innerHeight * 0.8);
+    let clsize =  Math.floor(Math.min(W/fieldcols, H/(fieldrows+1))); 
+    clsizeglobal = clsize + 'px';
+    mb.style.height = clsize * fieldrows + 'px';
+    mb.style.width = clsize * fieldcols + 'px';
+    let shtml = "";
+    for (let i=0; i<fieldrows; i++){
+        shtml += "<div class='trow'>";
+        for (let j=0; j<fieldcols; j++){
+            shtml += `<div id='cell_${i}_${j}' class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'>`;
+            //shtml += `<div class='incell'></div>`; 
+            if(field[i][j])
+                shtml += colourfield[i][j];
+            else 
+                shtml += GenerateDivEmpty(i,j);
+            // temporary
+            shtml += "</div>";
+        }
+        shtml += "</div>"
+    }
+    let kolorz = ColourTemplate[RandomInt(ColourTemplate.length)];
+    // for Right - Left buttons
+    shtml += "<div class='trow'>";
+    shtml+= `<div class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'>`;
+    shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz}, 0 0 4px 1px ${kolorz};'></div></div>`;
+    for (let j=2; j<fieldcols; j++){
+        shtml+= `<div class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'><div class='incell'></div></div>`;
+    }
+    shtml+= `<div class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'>`;
+    shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz}, 0 0 4px 1px ${kolorz};'></div></div>`;
+    shtml += "</div>"
+    mb.innerHTML = shtml;
+}
+
+function GenerateDivColour(i,j){
+    let z = ColourTemplate[RandomInt(ColourTemplate.length)];
+    return `<div class='incell' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${z}, 0 0 4px 1px ${z};'></div>`;
+}
+
+function GenerateDivEmpty(i,j){
+    return "<div class='incell'></div>";
+}
+
+function InitBBlock(){
+    return BuildinBlocks[RandomInt(BuildinBlocks.length)];
+}
+
+// activates every 250 ms while the game is going on
+function ProcessTetris(){
+    
+}
+
+function StartGame(){
+    IntervalHeart = setInterval(ProcessTetris, 250);
+}
+
+function FinishGame(){
+    clearInterval(IntervalHeart);
+}
+
+</script>
+
+<style>
+
+body {
+    background-color: #121212;
+}
+
+.mainbox {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*background-color: #44dddd;*/
+}
+
+.incell {
+    width: 100%;
+    height: 100%;
+    border-radius: 7px;
+}
+
+.tcell {
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 4px;
+}
+
+.trow {
+    display: block;
+    padding: 0px;
+    margin: 0px;
+}
+</style>
+</head>
+
+<body onload='PrepareMainBox()' onresize='PrepareMainBox()'>
+<div class='mainbox' id='mainbox_'>
+</div>    
+</body>
+
+</html>
