@@ -66,7 +66,7 @@ function PrepareMainBox(){
         for (let j=0; j<fieldcols; j++){
             shtml += `<div id='cell_${i}_${j}' class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'>`;
             //shtml += `<div class='incell'></div>`; 
-            if(field[i][j])
+            if(!field[i][j])
                 shtml += colourfield[i][j];
             else 
                 shtml += GenerateDivEmpty(i,j);
