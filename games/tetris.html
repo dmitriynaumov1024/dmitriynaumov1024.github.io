@@ -13,6 +13,10 @@ var mobile = false;
 
 var IntervalHeart;
 
+var LeftButtonPressed = false, RightButtonPressed = false;
+
+var ActiveBlock = undefined;
+
 var ColourTemplate = [
     "#ca2020",
     "#c0a012",
@@ -27,7 +31,7 @@ var BuildinBlocks = [
     { size: 2, blocks: [[0,0], [1,0]]}
 ];
 
-var field = GenerateField(fieldrows, fieldcols, function(i,j){ return false });
+var field;
 var colourfield = GenerateField(fieldrows, fieldcols, GenerateDivColour);
 var whitefield = GenerateField(fieldrows, fieldcols, GenerateDivEmpty);
 
@@ -69,7 +73,7 @@ function PrepareMainBox(){
             for (let j=0; j<fieldcols; j++){
                 shtml += `<div id='cell_${i}_${j}' class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
                 //shtml += `<div class='incell'></div>`; 
-                if(!field[i][j])
+                if(field[i][j])
                     shtml += colourfield[i][j];
                 else 
                     shtml += GenerateDivEmpty(i,j);
@@ -82,17 +86,17 @@ function PrepareMainBox(){
         // for Right - Left buttons
         shtml += "<div class='trow'>";
         shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
-        shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");'   style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
+        shtml += `<div class='incell' onmouseover='LeftButtonPressed = true;' onmouseout='LeftButtonPressed = false;'   style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
         for (let j=2; j<fieldcols; j++){
             shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'><div class='incell'></div></div>`;
         }
         shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
-        shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
+        shtml += `<div class='incell' onmouseover='RightButtonPressed = true;' onmouseout='RightButtonPressed = false;' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
         shtml += "</div>"
         mb.innerHTML = shtml;
     } else {
         mb.style.height = 'fit-content';
-        mb.innerHTML = "<h1 style='text-align:center; font-family: monospace; color: #dddddd;'>TETRIS</h1>";
+        mb.innerHTML = "<h1 style='text-align:center; font-family: monospace; color: #dddddd; cursor: default;' onclick='StartGame()'>TETRIS</h1>";
     }
 }
 
@@ -100,25 +104,151 @@ function GenerateDivColour(i,j){
     let z = ColourTemplate[RandomInt(ColourTemplate.length)];
     return `<div class='incell' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${z};'></div>`;
 }
+
+function MakeDivColor(color){
+    return `<div class='incell' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${color};'></div>`;
+}
+
 // , 0 0 4px 1px ${z}
 function GenerateDivEmpty(i,j){
     return "<div class='incell'></div>";
 }
 
 function InitBBlock(){
-    return BuildinBlocks[RandomInt(BuildinBlocks.length)];
+    let result = {size: 0, blocks: undefined};
+    let b = BuildinBlocks[RandomInt(BuildinBlocks.length)];
+    result.size = b.size;
+    result.blocks = new Array(b.size);
+    for(let i=0; i<result.size; i++){
+        result.blocks[i] = new Array(2);
+        result.blocks[i][0] = b.blocks[i][0];
+        result.blocks[i][1] = b.blocks[i][1];
+    }
+    return result;
 }
 
-// activates every 250 ms while the game is going on
+function RenderBBlock(){
+    for(let i=0; i<ActiveBlock.size; i++){
+        let y_ = ActiveBlock.blocks[i][0];
+        let x_ = ActiveBlock.blocks[i][1];
+        document.getElementById(`cell_${y_}_${x_}`).innerHTML = MakeDivColor(ActiveBlock.color);
+        field[y_][x_] = true;
+    }
+}
+
+function DerenderBBlock(){
+    for(let i=0; i<ActiveBlock.size; i++){
+        let y_ = ActiveBlock.blocks[i][0];
+        let x_ = ActiveBlock.blocks[i][1];
+        document.getElementById(`cell_${y_}_${x_}`).innerHTML = "<div class='incell'></div>";
+        field[y_][x_] = false;
+    }
+}
+
+function RightMovePermit(){
+    for(let i=0; i<ActiveBlock.size; i++){
+        let y_ = ActiveBlock.blocks[i][0];
+        let x_ = ActiveBlock.blocks[i][1]+1;
+        if(x_==fieldcols)
+            return false;
+        if(field[y_][x_]){ // if rightnext field cell is already filled
+            let ignor = true;
+            for(let j=0; j<ActiveBlock.size; j++){
+                if(x_ == ActiveBlock.blocks[j][1]) ignor = false; // but if this cell is owned by current block - it`s normal
+            }
+            if(ignor) return false;
+        }
+    }
+    return true;
+}
+
+function LeftMovePermit(){
+    for(let i=0; i<ActiveBlock.size; i++){
+        let y_ = ActiveBlock.blocks[i][0];
+        let x_ = ActiveBlock.blocks[i][1]-1;
+        if(x_<0)
+            return false;
+        if(field[y_][x_]){ // if leftnext field cell is already filled
+            let ignor = true;
+            for(let j=0; j<ActiveBlock.size; j++){
+                if(x_ == ActiveBlock.blocks[j][1]) ignor = false; // but if this cell is owned by current block - it`s normal
+            }
+            if(ignor) return false;
+        }
+    }
+    return true;
+}
+
+function DownMovePermit(){
+    for(let i=0; i<ActiveBlock.size; i++){
+        let y_ = ActiveBlock.blocks[i][0]+1;
+        let x_ = ActiveBlock.blocks[i][1];
+        if(y_==fieldrows)
+            return false;
+        if(field[y_][x_]){ // if downnext field cell is already filled
+            let ignor = true;
+            for(let j=0; j<ActiveBlock.size; j++){
+                if(y_ == ActiveBlock.blocks[j][0]) ignor = false; // but if this cell is owned by current block - it`s normal
+            }
+            if(ignor) return false;
+        }
+    }
+    return true;
+}
+
+// activates every 500 ms while the game is going on
 function ProcessTetris(){
+    if(ActiveBlock == undefined){
+        console.log("I created new block.");
+        // Here block is created and placed in middle up
+        ActiveBlock = InitBBlock();
+        for(let i=0; i<ActiveBlock.size; i++){
+            ActiveBlock.blocks[i][1] += Math.floor(fieldcols/2 - 2);
+        }
+        ActiveBlock.color = ColourTemplate[RandomInt(ColourTemplate.length)];
+        
+        for(let i=0; i<fieldcols; i++){
+            if(field[0][i]){
+                FinishGame();
+                return;
+            }
+        }
+        RenderBBlock();
+    } else {
+        // If block was created in previous frame, it is derendered and rendered again in the new place
+        DerenderBBlock();
+        let rpe = RightMovePermit(), lpe = LeftMovePermit(), dpe = DownMovePermit();
+        for(let i=ActiveBlock.size-1; i>=0; i--){
+            if(dpe){
+                ActiveBlock.blocks[i][0] += 1; // move block down for 1 cell
+            } 
+            if(LeftButtonPressed && lpe){ 
+                ActiveBlock.blocks[i][1] -= 1; // move block left for 1 cell
+            }
+            if(RightButtonPressed && rpe){
+                ActiveBlock.blocks[i][1] += 1; // move block right for 1 cell
+            }
+        }
+        RenderBBlock();
+        if(!DownMovePermit()){
+            ActiveBlock = undefined;
+        }
+    }
+
     
+    console.log("one frame");
 }
 
 function StartGame(){
-    IntervalHeart = setInterval(ProcessTetris, 250);
+    field = GenerateField(fieldrows, fieldcols, function(i,j){ return false });
+    playing = true;
+    PrepareMainBox();
+    IntervalHeart = setInterval(ProcessTetris, 500);
 }
 
 function FinishGame(){
+    playing = false;
+    PrepareMainBox();
     clearInterval(IntervalHeart);
 }
 
