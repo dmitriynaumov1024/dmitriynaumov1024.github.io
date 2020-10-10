@@ -55,40 +55,45 @@ function RandomInt(limit){
 
 function PrepareMainBox(){
     let mb = document.getElementById('mainbox_');
-    let W = document.body.clientWidth;
-    let H = (mobile) ? (screen.availHeight * 0.75) : (window.innerHeight * 0.85);
-    let clsize =  Math.floor(Math.min(W/fieldcols, H/(fieldrows+1))); 
-    clwglobal = clsize + 'px';
-    clhglobal = clsize - 4 + 'px';
-    mb.style.height = clsize * (fieldrows+1) + 'px';
-    mb.style.width = clsize * fieldcols + 'px';
-    let shtml = "";
-    for (let i=0; i<fieldrows; i++){
-        shtml += "<div class='trow'>";
-        for (let j=0; j<fieldcols; j++){
-            shtml += `<div id='cell_${i}_${j}' class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
-            //shtml += `<div class='incell'></div>`; 
-            if(!field[i][j])
-                shtml += colourfield[i][j];
-            else 
-                shtml += GenerateDivEmpty(i,j);
-            // temporary
-            shtml += "</div>";
+    if(playing){
+        let W = document.body.clientWidth;
+        let H = (mobile) ? (screen.availHeight * 0.75) : (window.innerHeight * 0.85);
+        let clsize =  Math.floor(Math.min(W/fieldcols, H/(fieldrows+1))); 
+        clwglobal = clsize + 'px';
+        clhglobal = clsize - 4 + 'px';
+        mb.style.height = clsize * (fieldrows+1) + 'px';
+        mb.style.width = clsize * fieldcols + 'px';
+        let shtml = "";
+        for (let i=0; i<fieldrows; i++){
+            shtml += "<div class='trow'>";
+            for (let j=0; j<fieldcols; j++){
+                shtml += `<div id='cell_${i}_${j}' class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
+                //shtml += `<div class='incell'></div>`; 
+                if(!field[i][j])
+                    shtml += colourfield[i][j];
+                else 
+                    shtml += GenerateDivEmpty(i,j);
+                // temporary
+                shtml += "</div>";
+            }   
+            shtml += "</div>"
         }
+        let kolorz = ColourTemplate[RandomInt(ColourTemplate.length)];
+        // for Right - Left buttons
+        shtml += "<div class='trow'>";
+        shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
+        shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");'   style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
+        for (let j=2; j<fieldcols; j++){
+            shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'><div class='incell'></div></div>`;
+        }
+        shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
+        shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
         shtml += "</div>"
+        mb.innerHTML = shtml;
+    } else {
+        mb.style.height = 'fit-content';
+        mb.innerHTML = "<h1 style='text-align:center; font-family: monospace; color: #dddddd;'>TETRIS</h1>";
     }
-    let kolorz = ColourTemplate[RandomInt(ColourTemplate.length)];
-    // for Right - Left buttons
-    shtml += "<div class='trow'>";
-    shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
-    shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
-    for (let j=2; j<fieldcols; j++){
-        shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'><div class='incell'></div></div>`;
-    }
-    shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
-    shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz};'></div></div>`;
-    shtml += "</div>"
-    mb.innerHTML = shtml;
 }
 
 function GenerateDivColour(i,j){
