@@ -56,7 +56,7 @@ function RandomInt(limit){
 function PrepareMainBox(){
     let mb = document.getElementById('mainbox_');
     let W = document.body.clientWidth;
-    let H = (mobile) ? (screen.availHeight * 0.8) : (window.innerHeight * 0.8);
+    let H = (mobile) ? (screen.availHeight * 0.75) : (window.innerHeight * 0.85);
     let clsize =  Math.floor(Math.min(W/fieldcols, H/(fieldrows+1))); 
     clwglobal = clsize + 'px';
     clhglobal = clsize - 4 + 'px';
