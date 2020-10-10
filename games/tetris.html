@@ -31,7 +31,7 @@ var field = GenerateField(fieldrows, fieldcols, function(i,j){ return false });
 var colourfield = GenerateField(fieldrows, fieldcols, GenerateDivColour);
 var whitefield = GenerateField(fieldrows, fieldcols, GenerateDivEmpty);
 
-var clsizeglobal = "";
+var clhglobal = "", clwglobal = "";
 
 if(screen.width < 500 || navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) ||
  navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPod/i)) {
@@ -56,16 +56,17 @@ function RandomInt(limit){
 function PrepareMainBox(){
     let mb = document.getElementById('mainbox_');
     let W = document.body.clientWidth;
-    let H = (mobile) ? (screen.availHeight * 0.7) : (window.innerHeight * 0.8);
+    let H = (mobile) ? (screen.availHeight * 0.8) : (window.innerHeight * 0.8);
     let clsize =  Math.floor(Math.min(W/fieldcols, H/(fieldrows+1))); 
-    clsizeglobal = clsize + 'px';
-    mb.style.height = clsize * fieldrows + 'px';
+    clwglobal = clsize + 'px';
+    clhglobal = clsize - 4 + 'px';
+    mb.style.height = clsize * (fieldrows+1) + 'px';
     mb.style.width = clsize * fieldcols + 'px';
     let shtml = "";
     for (let i=0; i<fieldrows; i++){
         shtml += "<div class='trow'>";
         for (let j=0; j<fieldcols; j++){
-            shtml += `<div id='cell_${i}_${j}' class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'>`;
+            shtml += `<div id='cell_${i}_${j}' class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
             //shtml += `<div class='incell'></div>`; 
             if(!field[i][j])
                 shtml += colourfield[i][j];
@@ -79,12 +80,12 @@ function PrepareMainBox(){
     let kolorz = ColourTemplate[RandomInt(ColourTemplate.length)];
     // for Right - Left buttons
     shtml += "<div class='trow'>";
-    shtml+= `<div class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'>`;
+    shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
     shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz}, 0 0 4px 1px ${kolorz};'></div></div>`;
     for (let j=2; j<fieldcols; j++){
-        shtml+= `<div class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'><div class='incell'></div></div>`;
+        shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'><div class='incell'></div></div>`;
     }
-    shtml+= `<div class='tcell' style='width: ${clsizeglobal}; height: ${clsizeglobal};'>`;
+    shtml+= `<div class='tcell' style='width: ${clwglobal}; height: ${clhglobal};'>`;
     shtml += `<div class='incell' onmouseover='console.log("focus");' onmouseout='console.log("lost focus");' style='background-color: #f0f0f0; box-shadow: inset 0 0 10px 2px ${kolorz}, 0 0 4px 1px ${kolorz};'></div></div>`;
     shtml += "</div>"
     mb.innerHTML = shtml;
@@ -125,8 +126,9 @@ body {
 }
 
 .mainbox {
+    display: block;
     position: absolute;
-    top: 40%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     /*background-color: #44dddd;*/
@@ -142,11 +144,12 @@ body {
     display: inline-block;
     box-sizing: border-box;
     margin: 0px;
-    padding: 4px;
+    padding: 4px 4px 0px;
 }
 
 .trow {
-    display: block;
+    display: inline-block;
+    box-sizing: border-box;
     padding: 0px;
     margin: 0px;
 }
