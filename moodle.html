@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Log into moodle ZNU</title>
+<meta charset="utf-8"></meta>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<style type="text/css">
+	body {
+		background-color: #eeeeee;
+		font-family: 'Roboto', 'Segoe UI', sans-serif;
+	}
+	label {
+		display: block;
+		padding-left: 8px;
+		margin: 0.5em auto 0;
+		font-size: 80%;
+	}
+	input {
+		width: 20em;
+		margin: 0.5em auto 2.5em;
+		background-color: #e5e5e5;
+		font-family: monospace;
+		font-size: 110%;
+		padding: 10px 16px 8px;
+		color: #333333;
+		border: none;
+		outline: none;
+		border-radius: 14px;
+		box-shadow: inset 3px 3px 8px #999999, inset -3px -3px 8px #ffffff;
+	}
+	input:-internal-autofill-selected, input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
+    	background-color: #e5e5e5 !important;
+    	color: #333333 !important;
+	}
+	button {
+		display: block;
+		margin: 0.5em auto 0.5em;
+		font-family: 'Roboto', 'Segoe UI', sans-serif;
+		background: none;
+		outline: none;
+		border: none;
+		box-shadow: none;
+		cursor: pointer;
+		padding: 8px 24px 8px;
+		border-radius: 14px;
+		font-variant: bold;
+		font-weight: bold;
+		transition-duration: 0.2s;
+	}
+	button:hover {
+		background-color: #bbbbbb;
+	}
+	button:focus {
+		background-color: #aaaaaa;
+	}
+	.centralcard {
+		position: fixed;
+		top: 45%; left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.neu-shape {
+		background-color: #f0f0f0;
+      	border-radius: 24px;
+      	box-shadow: 16px 16px 24px #a0a0a0, -18px -18px 26px #ffffff;
+	}
+	#loginform {
+		padding: 1.5em;
+	}
+	#ghost-title {
+		text-align: center;
+		color: #aaaaaa;
+		position: fixed;
+		top: 10%; left: 50%;
+		transform: translate(-50%, -50%);
+	}
+</style>
+</head>
+
+<body>
+	<div id="ghost-title">
+		<p style="font-size: 350%; margin: 0px auto 0px;">
+			<b> Moodle ZNU </b>
+		</p>
+		<p style="font-size: 80%;"> 
+			- обеспечиваем мучения студентов с 2001 года
+		</p>
+	</div>
+	<form id="loginform" class="centralcard neu-shape" method="post" action="https://moodle.znu.edu.ua/login/index.php" autocomplete="off">
+		<div>
+			<label for="username">Username</label>
+			<input type="text" name="username" placeholder="enter your username here...">
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" name="password">
+		</div>
+		<div>
+			<button type="submit">Log in</button>
+		</div>
+		<input type="hidden" name="logintoken" value="eWWYNL8ecCa6wisGXFSU59EZ4ITZWPpC">
+	</form>
+</body>
+</html>
