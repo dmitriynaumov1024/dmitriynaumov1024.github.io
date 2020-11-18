@@ -26,7 +26,7 @@
 		color: #333333;
 		border: none;
 		outline: none;
-		border-radius: 14px;
+		border-radius: 8px;
 		box-shadow: inset 3px 3px 8px #999999, inset -3px -3px 8px #ffffff;
 	}
 	input:-internal-autofill-selected, input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus {
@@ -64,13 +64,14 @@
 	.neu-shape {
 		background-color: #f0f0f0;
       	border-radius: 24px;
-      	box-shadow: 16px 16px 24px #a0a0a0, -18px -18px 26px #ffffff;
+      	box-shadow: 12px 12px 18px #a0a0a0, -16px -16px 22px #ffffff;
 	}
 	#loginform {
 		padding: 1.5em;
 		margin: 3em auto auto;
 	}
 	#title {
+		font-weight: bold;
 		text-align: center;
 		color: #aaaaaa;
 		font-size: 350%; 
@@ -81,6 +82,7 @@
 		color: #aaaaaa;
 		font-size: 80%;
 		margin: auto;
+		max-width: 22em;
 	}
 </style>
 </head>
@@ -88,10 +90,10 @@
 <body>
 	<div class="centralcard">
 		<p id="title">
-			<b> Moodle ZNU </b>
+			Moodle ZNU
 		</p>
 		<p id="title-sub"> 
-			- обеспечиваем мучения студентов с 2001 года
+			Система електронного забезпечення навчання
 		</p>
 		<form id="loginform" class="neu-shape" method="post" action="https://moodle.znu.edu.ua/login/index.php" autocomplete="off">
 			<div>
