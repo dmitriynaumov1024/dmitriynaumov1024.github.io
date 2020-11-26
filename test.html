@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EnlighterJS custom theme test</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+<style>
+    body {
+        background-color: #eeeeee;
+        font-family: 'Roboto', 'Segoe UI', sans-serif;
+    }
+    .neu-shape {
+        background-color: #f0f0f0;
+        border-radius: 24px;
+        box-shadow: 12px 12px 18px #a0a0a0, -16px -16px 22px #ffffff;
+        margin: 70px auto 70px;
+    }
+    .usual {
+        width: 30em;
+        max-width: 92%;
+    }
+    .header {
+        padding-bottom: 0.5em;
+        margin-bottom: 2em;
+        border-bottom: 1px solid #aaaaaa;
+        font-size: 110%;
+    }
+    .titlepage {
+        display: grid;
+        grid-template-rows: 30% 20% 40% auto;
+        grid-template-columns: 55% auto;
+        width: 180mm;
+        max-width: 85%;
+        height: 240mm;
+        margin: 100px auto 70px;
+        padding: 20mm;
+    }
+</style>
+
+<!-- EnlighterJS -->
+<script type="text/javascript" src="https://dmitriynaumov1024.github.io/dist/enlighterjs.min.js"></script>
+<link rel="stylesheet" href="https://dmitriynaumov1024.github.io/dist/enlighterjs.min.css" />
+</head>
+
+<body>
+    <div class="titlepage neu-shape">
+        <p style="text-align: center; grid-row: 1; grid-column: 1 / span 2">
+        МIНIСТЕРСТВО ОСВIТИ I НАУКИ УКРАЇНИ <br>
+        ЗАПОРIЗЬКИЙ НАЦIОНАЛЬНИЙ УНIВЕРСИТЕТ <br>
+        МАТЕМАТИЧНИЙ ФАКУЛЬТЕТ <br>
+        КАФЕДРА ПРОГРАМНОЇ IНЖЕНЕРIЇ <br>
+        </p>
+
+        <p style="text-align: center; grid-row: 2; grid-column: 1 / span 2;">
+        Дисциплiна «Комп'ютерна дискретна математика» <br>
+        Лабораторна робота №5: «Алгоритми на графах» <br>
+        </p>
+
+        <p style="grid-row: 3; grid-column: 1;">
+        Виконав: <br>
+        <br>
+        <br>
+        <br>
+        Перевірила: <br>
+        </p>
+
+        <p style="grid-row: 3; grid-column: 2;">
+        студент гр. 6.1219-2 <br>
+        Наумов Дмитро Павлович <br>
+        <br>
+        <br>
+        Стєганцева Поліна Георгіївна <br>
+        </p>
+
+        <p style="text-align: center; grid-row: 4; grid-column: 1 / span 2;">
+        Запоріжжя <br>
+        2020 <br>
+        </p>
+    </div>
+
+    <div class="usual neu-shape">
+        <p class="header">
+            <b>Код програми:</b>
+        </p>
+        <pre data-enlighter-language="csharp">
+using System;
+using Algo;
+
+class Program&lt;Y&gt; {
+
+    [STAThread]
+    static void Main(){
+        #region
+        int[][] matrix = stackalloc int[][]{
+            new[]{  3,  2,  4,  2 },
+            new[]{ 16,  4,  2,  3 },
+            new[]{  7,  2,  4,  7 },
+            new[]{  2,  2,  3,  4 }
+        };
+        #endregion
+        List&lt;int&gt; lst = new List&lt;int&gt;();
+        int[] optimal = Algorithm.Hungarian(matrix, maximum:true);
+        int value = 0;
+        Console.WriteLine("Maximal variant:");
+        for(int i=0; i&lt;optimal.Length; i++){
+            value += matrix[i][optimal[i]];
+            Console.WriteLine("{0} does task {1}", i, optimal[i]);
+        }
+        Console.WriteLine("Sum: {0}\n", value);
+
+        optimal = Algorithm.Hungarian(matrix, maximum:false);
+        value = 0;
+        Console.WriteLine("Minimal variant:");
+        for(int i=0; i&lt;optimal.Length; i++){
+            value += matrix[i][optimal[i]];
+            Console.WriteLine("{0} does task {1}", i, optimal[i]);
+        }
+        Console.WriteLine("Sum: {0}\n", value);
+    }
+}
+// Line comment
+
+/* Another line comment */
+
+/******************************************
+COMMENT
+******************************************/
+
+/// Comment
+        </pre>
+    </div>
+
+    <!-- Init Code -->
+    <script type="text/javascript">
+        // - highlight all pre + code tags (CSS3 selectors)
+        // - use javascript as default language
+        // - use theme "enlighter" as default theme
+        // - replace tabs with 2 spaces
+        EnlighterJS.init('pre', 'code', {
+                language : 'csharp',
+                theme: 'custom',
+                indent : 2
+        });
+    </script>
+</body>
+</html>
