@@ -11,6 +11,7 @@
 	font-size: 120%;
 	color:#222222;
 	cursor: text;
+	border: 1px solid #aaaaaa;
 }
 .enlighter-t-custom .enlighter-toolbar{
 	top:10px; right:10px;
