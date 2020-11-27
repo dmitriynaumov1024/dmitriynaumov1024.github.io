@@ -50,16 +50,6 @@ span.enlighter{display:inline-block;padding:3px 5px 1px 5px;margin:0 2px 0 2px}
 .enlighter-t-custom .enlighter-toolbar{
 	display: none;
 }
-.enlighter-t-custom .enlighter-btn{font-family:"Open Sans",Arial,Verdana,sans-serif;background-image:none;background-color:transparent;color:#939393;padding:2px 8px 2px 8px;margin:0 5px 0 5px;border:solid 1px #383e49;border-radius:4px;background-color:#13151a}
-.enlighter-t-custom .enlighter-btn:hover{background-color:#121518;color:#f0f0f0}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-raw{background-image:none}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-raw:after{content:'Raw'}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-copy{background-image:none}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-copy:after{content:'Copy'}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-window{background-image:none}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-window:after{content:'Extern'}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-website{background-image:none}
-.enlighter-t-custom .enlighter-toolbar .enlighter-btn-website:after{content:'EnlighterJS'}
 .enlighter-t-custom .enlighter-raw{color:#222222;}
 .enlighter-t-custom div.enlighter>div{padding:1px 5px 1px 14px;}
 .enlighter-t-custom div.enlighter>div:FIRST-CHILD{padding-top:5px}
