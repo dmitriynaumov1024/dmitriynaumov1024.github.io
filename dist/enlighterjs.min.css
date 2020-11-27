@@ -16,13 +16,13 @@
 	content: url('https://dmitriynaumov1024.github.io/dist/icon_raw.svg');
 }
 .enlighter-default .enlighter-toolbar .enlighter-btn-copy{
-	content: "<img src='https://dmitriynaumov1024.github.io/dist/icon_copy.svg'>";
+	content: url('https://dmitriynaumov1024.github.io/dist/icon_copy.svg');
 }
 .enlighter-default .enlighter-toolbar .enlighter-btn-window{
-	content: "<img src='https://dmitriynaumov1024.github.io/dist/icon_ext.svg'>";
+	content: url('https://dmitriynaumov1024.github.io/dist/icon_ext.svg');
 }
 .enlighter-default .enlighter-toolbar .enlighter-btn-website{
-	content: "<img src='https://dmitriynaumov1024.github.io/dist/icon_enlighterjs.svg'>";
+	content: url('https://dmitriynaumov1024.github.io/dist/icon_enlighterjs.svg');
 }
 .enlighter-origin{display:none!important}
 .enlighter-clipboard{position:absolute;left:0;bottom:0;width:1px;height:1px;overflow:hidden}
