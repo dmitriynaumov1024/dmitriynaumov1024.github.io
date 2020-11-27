@@ -30,13 +30,13 @@
 .enlighter-v-standard{display:block}
 .enlighter-v-codegroup{display:block}
 .enlighter-v-codegroup .enlighter-codegroup-wrapper{position:relative}
-div.enlighter{display:table;width:100%;border-collapse:collapse;border-spacing:0;empty-cells:show;min-width:100%;font-size:1em;margin:0;padding:0;text-indent:0;counter-reset:enlighter 0}
+div.enlighter{display:block;width:max-content;empty-cells:show;margin:0;padding:0;text-indent:0;counter-reset:enlighter 0}
 div.enlighter>div{display:table-row;margin:0;border:solid 0 #fff;list-style:none;font-size:inherit;line-height:1.15em;min-height:14px}
 div.enlighter>div>div{display:table-cell;padding-left:10px}
 div.enlighter>div>div::before{content:" "}
 span.enlighter{display:inline-block;padding:3px 5px 1px 5px;margin:0 2px 0 2px}
 .enlighter span{margin:0;padding:0;line-height:inherit;font-size:1em;font-family:inherit}
-.enlighter-linenumbers div.enlighter>div::before{white-space:nowrap;display:block;display:table-cell;width:45px;min-width:45px;counter-increment:enlighter;content:counter(enlighter,decimal) ;text-align:right;padding-right:8px}
+.enlighter-linenumbers div.enlighter>div::before{white-space:nowrap;display:block;display:table-cell;width:5em;min-width:45px;counter-increment:enlighter;content:counter(enlighter,decimal) ;text-align:right;padding-right:8px}
 .enlighter-toolbar{display:none;position:absolute;right:10px;top:10px;z-index:10}
 .enlighter-toolbar-bottom{top:unset;bottom:0}
 .enlighter-overflow-scroll.enlighter-v-standard{overflow-x:auto;word-wrap:normal!important}
