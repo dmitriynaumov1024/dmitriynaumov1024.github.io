@@ -1,6 +1,6 @@
 /*! EnlighterJS Syntax Highlighter 3.5.0 | Mozilla Public License 2.0 | https://enlighterjs.org */
 .enlighter-tooltip{z-index:100}
-.enlighter-default{font-family:monospace;line-height:1.35em;overflow:hidden;white-space:pre-wrap;word-wrap:break-word;margin:0 0 20px 0;padding:0;position:relative;text-align:left;direction:ltr}
+.enlighter-default{font-family:monospace;line-height:1.35em;white-space:pre-wrap;word-wrap:break-word;margin:0 0 20px 0;padding:0;position:relative;text-align:left;direction:ltr}
 .enlighter-default .enlighter-special:hover{background-color:#f4f8fc}
 .enlighter-default .enlighter-raw{display:none;min-width:100%;font-family:inherit;margin:0;padding:0;white-space:pre-wrap;word-wrap:break-word;border:none;box-shadow:none}
 .enlighter-default:hover .enlighter-toolbar{display:block}
@@ -36,7 +36,7 @@ div.enlighter>div>div{display:table-cell;padding-left:10px}
 div.enlighter>div>div::before{content:" "}
 span.enlighter{display:inline-block;padding:3px 5px 1px 5px;margin:0 2px 0 2px}
 .enlighter span{margin:0;padding:0;line-height:inherit;font-size:1em;font-family:inherit}
-.enlighter-linenumbers div.enlighter>div::before{white-space:nowrap;display:block;display:table-cell;width:5em;min-width:45px;counter-increment:enlighter;content:counter(enlighter,decimal) ;text-align:right;padding-right:8px}
+.enlighter-linenumbers div.enlighter>div::before{white-space:nowrap;display:block;display:table-cell;width:2.5em;min-width:45px;counter-increment:enlighter;content:counter(enlighter,decimal) ;text-align:right;padding-right:8px}
 .enlighter-toolbar{display:none;position:absolute;right:10px;top:10px;z-index:10}
 .enlighter-toolbar-bottom{top:unset;bottom:0}
 .enlighter-overflow-scroll.enlighter-v-standard{overflow-x:auto;word-wrap:normal!important}
