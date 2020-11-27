@@ -8,13 +8,14 @@
 
 .enlighter-t-custom {
 	font-family:monospace;
-	font-size: 120%;
+	font-size: 110%;
 	color:#222222;
 	cursor: text;
-	border: 1px solid #aaaaaa;
+	margin: 0;
+	padding: 0;
 }
 .enlighter-t-custom .enlighter-toolbar{
-	top:10px; right:10px;
+	display: none;
 }
 .enlighter-t-custom .enlighter-btn{font-family:"Open Sans",Arial,Verdana,sans-serif;background-image:none;background-color:transparent;color:#939393;padding:2px 8px 2px 8px;margin:0 5px 0 5px;border:solid 1px #383e49;border-radius:4px;background-color:#13151a}
 .enlighter-t-custom .enlighter-btn:hover{background-color:#121518;color:#f0f0f0}
@@ -26,7 +27,7 @@
 .enlighter-t-custom .enlighter-toolbar .enlighter-btn-window:after{content:'Extern'}
 .enlighter-t-custom .enlighter-toolbar .enlighter-btn-website{background-image:none}
 .enlighter-t-custom .enlighter-toolbar .enlighter-btn-website:after{content:'EnlighterJS'}
-.enlighter-t-custom .enlighter-raw{color:#cfd5e0;background-color:#272b33;padding:4px 5px 4px 54px}
+.enlighter-t-custom .enlighter-raw{color:#222222;}
 .enlighter-t-custom div.enlighter>div{padding:1px 5px 1px 14px;}
 .enlighter-t-custom div.enlighter>div:FIRST-CHILD{padding-top:5px}
 .enlighter-t-custom div.enlighter>div:LAST-CHILD{padding-bottom:5px}
@@ -55,7 +56,7 @@
 .enlighter-t-custom .enlighter-k6{color:#d171dd; font-style:italic}
 .enlighter-t-custom .enlighter-k7{color:#d171dd}
 .enlighter-t-custom .enlighter-k8{color:#4284ae}
-.enlighter-t-custom .enlighter-k9{color:#fff}
+.enlighter-t-custom .enlighter-k9{color:#009695}
 .enlighter-t-custom .enlighter-k10{color:#4284ae;}
 .enlighter-t-custom .enlighter-k11{color:#6b7c8b}
 .enlighter-t-custom .enlighter-e0{color:#009695}
