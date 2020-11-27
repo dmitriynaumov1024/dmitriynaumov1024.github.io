@@ -11,15 +11,12 @@
 	background-color:#f0f0f0;
 	cursor:pointer;
 	border-radius: 5px;
-	width:46px;
-	height:46px;
 }
 .enlighter-default .enlighter-toolbar .enlighter-btn-raw{
-	content: "<img src='https://dmitriynaumov1024.github.io/dist/icon_raw.svg'>";
+	content: url('https://dmitriynaumov1024.github.io/dist/icon_raw.svg');
 }
 .enlighter-default .enlighter-toolbar .enlighter-btn-copy{
 	content: "<img src='https://dmitriynaumov1024.github.io/dist/icon_copy.svg'>";
-
 }
 .enlighter-default .enlighter-toolbar .enlighter-btn-window{
 	content: "<img src='https://dmitriynaumov1024.github.io/dist/icon_ext.svg'>";
